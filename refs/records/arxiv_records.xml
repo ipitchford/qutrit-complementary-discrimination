@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/bnq1AOiwN2+tQg61a+uV66Wi2F8</id>
+  <title>arXiv Query: search_query=&amp;id_list=2608.14806,2608.03828,2608.04916,2509.08286,quant-ph/0512154&amp;start=0&amp;max_results=10</title>
+  <updated>2026-11-03T23:44:30Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=2608.14806,2608.03828,2608.04916,2509.08286,quant-ph/0512154" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>5</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/quant-ph/0512154v2</id>
+    <title>A concise guide to complex Hadamard matrices</title>
+    <updated>2006-05-25T12:54:58Z</updated>
+    <link href="https://arxiv.org/abs/quant-ph/0512154v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/quant-ph/0512154v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>  Complex Hadamard matrices, consisting of unimodular entries with arbitrary phases, play an important role in the theory of quantum information. We review basic properties of complex Hadamard matrices and present a catalogue of inequivalent cases known for dimension N=2,...,16. In particular, we explicitly write down some families of complex Hadamard matrices for N=12,14 and 16, which we could not find in the existing literature.</summary>
+    <category term="quant-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.CO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.RA" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2005-12-19T11:24:19Z</published>
+    <arxiv:comment>56 pages, no figures, an updated on line version at http://chaos.if.uj.edu.pl/~karol/hadamard/</arxiv:comment>
+    <arxiv:primary_category term="quant-ph"/>
+    <arxiv:journal_ref>Open Syst. Inf. Dyn. 13, 133-177 (2006)</arxiv:journal_ref>
+    <author>
+      <name>Wojciech Tadej</name>
+    </author>
+    <author>
+      <name>Karol Zyczkowski</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2509.08286v2</id>
+    <title>On the CQC Conjecture</title>
+    <updated>2026-05-24T17:06:16Z</updated>
+    <link href="https://arxiv.org/abs/2509.08286v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2509.08286v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The CQC conjecture by Schneeloch et al. (Physical Review A 90.6, 2014) asserts that the sum of classical mutual information between two parties obtained by measuring individual systems in two mutually unbiased bases cannot exceed their shared quantum mutual information. This remarkable conjecture, which deserves more work, still remains open. In this article, using a result by Coles and Piani (Physical Review A 89.2, 2014), we derive a sufficient condition for which the CQC conjecture holds. We show that this condition validates the conjecture for a wider class of states compared to the states that were mentioned in the original work. Furthermore, we extend this conjecture to a higher number of mutually unbiased bases and prime dimensions. We prove this extended CQC conjecture on isotropic states of arbitrary prime dimensions and simulate it extensively for dimensions 3 and 5 for random bipartite states, observing no contradiction.</summary>
+    <category term="quant-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-09-10T05:03:35Z</published>
+    <arxiv:primary_category term="quant-ph"/>
+    <author>
+      <name>Hasan Iqbal</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.03828v3</id>
+    <title>When Complementary Measurements Count the Same Classical Bit Twice: Counterexamples to CQC, ECQC, and Complementarity-Based Certification</title>
+    <updated>2026-09-25T03:18:38Z</updated>
+    <link href="https://arxiv.org/abs/2608.03828v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.03828v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Mutually unbiased measurements are commonly expected to expose independent facets of a quantum state: a correlation that is classical in one basis should disappear in a complementary basis. In higher dimensions, however, this intuition becomes particularly subtle because correlations recovered in different settings need not represent different information. To expose this loophole, we propose a two-branch classical null test: before the setting is chosen, a shared bit selects one of two orthogonal product preparations, producing a rank-two classical--classical state, and the candidate protocol then runs unchanged. Different settings can read the same bit through different outcome patterns. This two-branch classical architecture disproves the complementary-quantum correlation (CQC) conjecture in every dimension $d\geq3$. A distinct rank-two classical--classical state disproves its complete-basis extension (ECQC) at $d=7$, with an overrun that grows without bound along prime dimensions. Its qutrit CQC instance also gives classical false positives for a proposed quantum-correlation measure and a proposed one-sided semi-device-independent steering criterion, and refutes a conditional-probability conjecture. The failures identify the missing requirement: information read in different settings must be nonredundant. In experiments and applications, the same low-overhead architecture can serve as a calibration test before a multibasis score is assigned quantum meaning.</summary>
+    <category term="quant-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-08-04T15:36:20Z</published>
+    <arxiv:comment>9 pages. Updated the discussion to cite our companion paper arXiv:2608.04916, which proves CQC for all two-qubit states, and to clarify the sharp dimensional boundary. References updated. Results and proofs unchanged</arxiv:comment>
+    <arxiv:primary_category term="quant-ph"/>
+    <author>
+      <name>Jinbo Wang</name>
+    </author>
+    <author>
+      <name>Qihang Wang</name>
+    </author>
+    <author>
+      <name>Kun Chen</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.14806v2</id>
+    <title>Separable Counterexamples to Complementary Quantum Correlations, and Why Random Search Missed Them</title>
+    <updated>2026-08-19T00:40:24Z</updated>
+    <link href="https://arxiv.org/abs/2608.14806v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.14806v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The complementary quantum correlations (CQC) relation bounds the sum of two classical mutual informations, obtained from local mutually unbiased measurements, by the quantum mutual information of the premeasurement state. We refute it. Separable rank-two counterexamples exist in every local dimension pair \(m\times n\) with \(m,n\ge3\), with closed-form excess at least \(1/(8m^2n^2)\) nats, and in every qubit--qudit pair \(2\times n\) with \(n\ge3\) except \(n=3,5\); every covered pair also admits full-rank separable counterexamples. We then analyse the two residual qubit--qudit dimensions. A dimension-free entropy envelope replaces the natural quadratic majorant and lowers the requirement for closing the equal-prior orthogonal two-ray family from a triangular-discrimination bound \(S\le8/3\) to \(S\le3.8265583\ldots\); the associated gate matrix has trace exactly two, so its spectral test collapses to a single eigenvalue-free scalar; and the exact identity \(X=1-4\operatorname{Var}(c)\) turns the prime-Fourier full-spark barrier into a variance bound. A \(128\)-bit interval cover then closes that family at \(2\times3\) with gap at least \(0.012021\) nats, and at \(2\times5\) an exact saturator attaining \(S=(14+2\sqrt5)/5\) refutes three competing routes. We also give a state-dependent corrected inequality that is universal, and show it is incomparable with CQC already at \(2\times2\). Finally we quantify why the original searches had essentially no power to find these states: the violating set is a sliver against the low-rank boundary, the witness lies \(7.3\) standard deviations below the Hilbert--Schmidt mean, the bases must be aligned to about nine degrees (\(\sim10^{-21}\) of frames), and extrapolating the sample minimum demands \(10^{10}\) to \(10^{18}\) samples against the \(10^7\) ever run.</summary>
+    <category term="quant-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-08-14T18:21:29Z</published>
+    <arxiv:primary_category term="quant-ph"/>
+    <author>
+      <name>Lilong Qian</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.04916v1</id>
+    <title>Complementary Quantum Correlations Are Universal for Qubits</title>
+    <updated>2026-08-05T14:39:55Z</updated>
+    <link href="https://arxiv.org/abs/2608.04916v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.04916v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Extracting total correlations from a quantum system usually requires reconstructing its state, whereas many experiments access only a few measurement settings. A possible shortcut is to add the mutual informations obtained from complementary measurements; in dimensions above two, however, this procedure can count the same classical correlation twice. We establish that qubits are protected from such overcounting. For every two-qubit state, the correlations observed in two complementary local bases are bounded by the premeasurement quantum mutual information. The proof traces this protection to binary-entropy curvature on the Bloch ball and combines a qubit information-exclusion tradeoff with data processing under local dephasing. Consequently, two correlation tables give a tomography-free lower bound on total correlation. A score above one bit also certifies a quantitative one-way entanglement-distillation rate; when applied to the Choi state of a qubit channel, the same data lower bound its quantum capacity. The theorem therefore identifies both an operational use of complementarity and the trusted two-dimensional setting in which its correlation accounting is valid.</summary>
+    <category term="quant-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-08-05T14:39:55Z</published>
+    <arxiv:comment>10 pages</arxiv:comment>
+    <arxiv:primary_category term="quant-ph"/>
+    <author>
+      <name>Jinbo Wang</name>
+    </author>
+    <author>
+      <name>Qihang Wang</name>
+    </author>
+    <author>
+      <name>Kun Chen</name>
+    </author>
+  </entry>
+</feed>

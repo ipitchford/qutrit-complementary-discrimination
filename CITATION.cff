@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "Please cite this versioned research candidate by its DOI."
+title: "Sharp qutrit discrimination and unavoidable correlation overcounting for complementary measurements"
+type: software
+authors:
+  - name: Anonymous
+version: 0.1.0-candidate
+doi: 10.5281/zenodo.23933731
+date-released: 2026-11-04
+repository-code: "https://github.com/ipitchford/qutrit-complementary-discrimination"
+url: "https://evidencepress.org/releases/qutrit-complementary-discrimination/"
+license:
+  - CC0-1.0
+  - MIT
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23933731
+    description: "Version DOI (0.1.0-candidate)"
+  - type: doi
+    value: 10.5281/zenodo.23933730
+    description: "Concept DOI (all versions)"
+keywords:
+  - mutually unbiased bases
+  - complementary quantum correlations
+  - triangular discrimination
+  - qutrit
+  - sum-of-squares certificate
+  - separable states
+abstract: "For every pair of complementary (mutually unbiased) qutrit bases and every two orthogonal qutrit states, the triangular discrimination summed over the two bases is at most 8/3, with every equality case classified (tied to the Hesse SIC rays for the computational and Fourier bases); proof by an exact rational sum-of-squares certificate checked by a standalone verifier. Consequences: a 2/3 cap on the Fisher-information efficiency of two random complementary settings and a CQC margin of at least 0.1005 nats for Qian's two-ray qubit-qutrit family. For a qubit with a qudit of dimension n >= 4, every prescribed pair of complementary measurements admits a separable state violating the complementary quantum correlation (CQC) inequality, with a uniform certified margin below -9/20000000 nats (previously known only for n >= 164); a related construction covers both dimensions at least three. The full qubit-qutrit CQC question remains open. Unrefereed candidate; internal AI-assisted review only. Text CC0-1.0; code MIT."

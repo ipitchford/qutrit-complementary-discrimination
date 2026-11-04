@@ -1,0 +1,18 @@
+claim: For every orthonormal u,v in C^3, triangular-discrimination sum in computational and canonical Fourier bases is at most 8/3.
+source: Qian Lilong, arXiv 2608.14806v2, 19 August 2026, sections 6.1, 6.3, 6.5 and open problem 11(4), page 24; corresponding v1 open problem is 10(3).
+normalization:
+  Fourier: F_jk=exp(2*pi*i*j*k/3)/sqrt(3), indices 0,1,2; measurement amplitudes F^*u. Replacing F^* by F only permutes outcomes.
+  divergence: sum_i (p_i-q_i)^2/(p_i+q_i), with 0/0=0; range [0,2].
+  projector: P=I-ww^*, W=w-perp, ||w||=1.
+  test_operator: J=P_u-P_v; J=PJP; Tr J=0; Tr J^2=2.
+  gate: A_W is real 3x3 Gram matrix on traceless Hermitians of W, orthonormal for Tr(XY); Tr A_W=2; max S=2*lambda_max(A_W).
+target_equivalence: det((4/3)I-A_W)>=0, since A_W>=0 and Tr A_W=2.
+finite_fingerprints:
+  - w=e_0: A spectrum [1,1/2,1/2], maximum S=2.
+  - w=(1,1,1)/sqrt(3): A spectrum [1,1/2,1/2], maximum S=2.
+  - w=(0,1,-1)/sqrt(2): A spectrum [4/3,2/3,0], maximum S=8/3.
+single_basis_fingerprint: A_Q has trace 1, rank at most 2, e2=2*p0*p1*p2/((1-p0)*(1-p1)*(1-p2)), where p_i=|w_i|^2.
+contribution_unit: Complete analytic proof or exact counterexample to the stated dimension-three bound.
+exclusions: No claim about all CQC states in 2x3; no claim about dimension five; equality subspace alone does not force every basis u,v to attain the maximum.
+aliases: [triangular discrimination, Vincze-Le Cam divergence, two mutually unbiased measurements, compressed qubit POVM, Fisher-information frame, Bloch frame, Fourier complementarity, rank-two quantum-state discrimination]
+gate_status: Bounded uncertainty; primary open statement inspected; exact-formula searches so far return source and mirrors only; no historical novelty claim authorized.

@@ -1,0 +1,437 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=26mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,enumitem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,linkcolor=MidnightBlue,citecolor=MidnightBlue,urlcolor=MidnightBlue]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small Complementary measurements: sharp bounds and counterexamples}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\parskip}{3pt}
+\setlength{\emergencystretch}{2em}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\C}{\mathbb C}\newcommand{\R}{\mathbb R}
+\newcommand{\I}{I}\newcommand{\id}{I}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\spanop}{span}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\arctanh}{arctanh}
+\newcommand{\proj}[1]{|#1\rangle\langle #1|}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\title{Sharp qutrit discrimination and unavoidable correlation overcounting for complementary measurements}
+\author{Anonymous}
+\date{3 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Suppose two parties share a quantum system and each can measure in one of two complementary bases. In 2014 Schneeloch, Broadbent and Howell proposed that the correlations seen in the two resulting outcome tables never add up to more than the total quantum correlation of the shared state. This complementary quantum correlation (CQC) inequality is now known to fail in most dimensions. It holds for two qubits, and the qubit--qutrit case is still undecided.
+
+We settle two follow-up questions. First, for a three-level system (a qutrit), we prove a sharp limit, conjectured by Qian, on how well two complementary measurements can tell two orthogonal states apart: their summed triangular discrimination is at most $8/3$. We also find every case of equality; for the standard computational and Fourier bases these are tied to the nine Hesse SIC rays. Two consequences follow. Choosing one of the two measurements at random recovers at most two thirds of the quantum Fisher information in a simple two-state estimation task. And a restricted qubit--qutrit family obeys CQC with a margin of at least $0.1005$ nats. The proof is computer-assisted: an exact rational sum-of-squares certificate, checked by a short standalone program.
+
+Second, when a qubit is paired with a system of dimension $n\ge4$, we show that changing the complementary measurements cannot rescue CQC. For every prescribed pair of measurements there is an unentangled (separable) state that violates the inequality, with an explicit uniform margin. This every-pair statement was previously known only for $n\ge164$. A related construction covers every prescribed pair when both dimensions are at least three. The full qubit--qutrit CQC problem remains open.
+\end{abstract}
+
+\section{Introduction}
+
+\paragraph{The question.}
+Two complementary measurements, such as position and momentum, or the computational and Fourier bases of a qudit, cannot both have predictable outcomes. Entropic uncertainty relations make this precise, including in the presence of a correlated partner system \cite{berta,coles}. Schneeloch, Broadbent and Howell asked a related question about correlations \cite{schneeloch}. Alice and Bob share a state $\rho$. Each measures in one of two complementary bases, and they record two joint outcome tables. Is the classical correlation in the two tables together, measured by Shannon mutual information, always at most the quantum mutual information of $\rho$? If so, two measurement tables would give a guaranteed lower bound on total correlation without reconstructing the density matrix. This complementary quantum correlation (CQC) inequality was proposed with exactly this use in mind.
+
+\paragraph{What is known.}
+The inequality is now known to be false in general. Public code repositories posted in late July 2026 gave exact qutrit--qutrit counterexamples \cite{alper,oconnor}. Wang, Wang and Chen then gave counterexamples in every dimension at least three \cite{wangcounter}, and proved that the inequality does hold for two qubits with any prescribed complementary measurements \cite{wangqubits}. Iqbal had earlier given sufficient conditions for the inequality \cite{iqbal}. Qian's version~2 refutes it for a qubit paired with a qudit of every dimension $n\ge4$, using a different construction at $n=5$ \cite[Theorems~5.1, 7.7]{qian}. The only undecided pair of dimensions is qubit--qutrit, $2\times3$ \cite[Section~11(1)]{qian}.
+
+\paragraph{Why the measurement choice matters.}
+A counterexample for one choice of complementary bases shows that the inequality is not universal. It leaves open a natural repair: perhaps an experimenter can restore a guarantee by choosing the measurements well. To rule this out one needs a counterexample for \emph{every} prescribed pair of complementary bases. The violating state may depend on the bases; we never claim that one state works for all bases at once. For a qubit and a qudit, Qian proved such an every-pair statement only for $n\ge164$ \cite[Theorem~4.1]{qian}.
+
+\paragraph{Why triangular discrimination.}
+Qian reduced one natural qubit--qutrit family to a single number $\mathcal S$: the triangular discrimination of two orthogonal qutrit states, added over the two complementary bases. It is defined in \eqref{eq:delta} below. For this two-ray family the CQC gap is bounded below by a decreasing function of $\mathcal S$ \cite[Theorem~6.3]{qian}, so any upper bound on $\mathcal S$ gives a lower bound on the gap. Qian showed that $\mathcal S$ can reach $8/3$ and asked whether it can exceed it \cite[Section~11(4)]{qian}. The same quantity also has an independent meaning: $\mathcal S/4$ is a classical Fisher information (Corollary~\ref{cor:fisher}).
+
+\paragraph{What this paper proves.}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \emph{Sharp qutrit bound (Theorem~\ref{thm:qutrit}).} $\mathcal S\le8/3$ for every pair of complementary qutrit bases, with a complete list of equality cases. This raises the certified CQC gap for Qian's two-ray family from $0.0120$ to $0.1005$ nats (Corollary~\ref{cor:tworay}). It does not settle the $2\times3$ problem beyond that family.
+\item \emph{Every prescribed pair for a qubit and a qudit (Theorem~\ref{thm:allmub-qubit}).} For $n\ge4$, every prescribed pair of complementary measurements on each side admits a separable violating state with a margin that is the same for all $n$ and all bases. Existence of \emph{some} violation for these $n$ was already known \cite{qian}. The new content is the every-pair quantifier for $4\le n\le163$, together with separability and the uniform margin.
+\item \emph{Both dimensions at least three (Theorem~\ref{thm:allmub-higher}).} An attributed extension of the known shared-label mechanism gives separable violations for every prescribed pair, with a margin independent of the dimensions.
+\end{enumerate}
+Table~\ref{tab:status} summarises the qubit--qudit situation after this paper.
+
+\begin{table}[ht]
+\centering\small
+\caption{Status of CQC for a qubit paired with a qudit of dimension $n$, with prescribed complementary (mutually unbiased) measurements on each side.}
+\label{tab:status}
+\begin{tabular}{>{\raggedright\arraybackslash}p{.14\textwidth}>{\raggedright\arraybackslash}p{.36\textwidth}>{\raggedright\arraybackslash}p{.38\textwidth}}
+\toprule
+$n$ & Fails for some pair? & Fails for every prescribed pair?\\
+\midrule
+$2$ & No: CQC holds \cite{wangqubits} & No\\
+$3$ & Open \cite[Section~11(1)]{qian} & Open; our method needs $c>1/2$, but here $c=1/3$\\
+$4$ & Yes \cite[Theorem~5.1]{qian} & Yes, Theorem~\ref{thm:allmub-qubit} (new)\\
+$5$ & Yes, full-rank witness \cite[Theorem~7.7]{qian} & Yes, Theorem~\ref{thm:allmub-qubit} (new)\\
+$6$--$163$ & Yes \cite[Theorem~5.1]{qian} & Yes, Theorem~\ref{thm:allmub-qubit} (new)\\
+$\ge164$ & Yes & Yes \cite[Theorem~4.1]{qian}; uniform separable margin added here\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Why our construction reaches small dimensions.}
+Qian's every-pair witness is a fixed equal mixture of two pure product rays. Its violation is a competition between entropies of order one, and it wins only once $n\ge164$. We instead perturb a product state by a small, marginal-preserving amount and look at the second derivative of the gap, following Qian's second-variation method \cite[Section~7]{qian}. At the maximally mixed state this second derivative vanishes identically, in every dimension \cite[Remark~7.5]{qian}. Our product state has a partially polarised qubit factor, with Bloch length $r>0$. To leading order the second derivative is then $(1-2c)r^2/3$, where $c=1-2/n$ is the overlap of the two compressed Bob observables introduced in Section~\ref{sec:allmub}. It is negative exactly when $c>1/2$, that is, when $n>4$. The case $n=4$ needs a separate, exact argument.
+
+\paragraph{Prior work and credit.}
+Table~\ref{tab:prior} lists what we took from earlier work. For the qutrit theorem, the compressed-frame reduction, its trace identity, the determinant condition and the attaining configuration are Qian's \cite[Section~6]{qian}. Our new steps are the nonnegativity certificate and the completeness of the equality classification. For the qubit--qudit theorem, the two-dimensional compression already appears in Qian's analysis \cite[Proposition~6.9]{qian} and in O'Connor's repository \cite{oconnor}, and the second-variation method is Qian's \cite[Section~7]{qian}. Our contribution there is an explicit separable perturbation whose sign can be proved uniformly over all prescribed bases. The final theorem keeps the shared-label mechanism of \cite{wangcounter,qian}. An every-prescribed-pair version of that mechanism, for equal dimensions $d\ge3$ and with an entangled state, was stated earlier by O'Connor, who flagged it as not independently checked \cite{oconnor}.
+
+\begin{table}[ht]
+\centering\small
+\caption{Questions addressed, the prior results we inspected, and what is new here.}
+\label{tab:prior}
+\begin{tabular}{>{\raggedright\arraybackslash}p{.24\textwidth}>{\raggedright\arraybackslash}p{.34\textwidth}>{\raggedright\arraybackslash}p{.32\textwidth}}
+\toprule
+Question & Prior result inspected & Result here\\
+\midrule
+Sharp qutrit discrimination & $8/3$ attained; universal upper bound explicitly open \cite[Sections~6.5, 11(4)]{qian} & Upper bound proved with an exact rational certificate; all equality cases classified.\\
+Every prescribed qudit pair, qubit--qudit & Separable violations for all $n\ge164$ \cite[Theorem~4.1]{qian} & Separable violations for all $n\ge4$, with a uniform finite witness.\\
+Both local dimensions at least three & Computational/Fourier constructions \cite{wangcounter,qian}; every-pair $d\times d$ construction stated, unchecked and entangled \cite{oconnor} & Separable, unequal dimensions allowed, a dimension-independent margin, with proof.\\
+Full $2\times3$ CQC & Open \cite[Section~11(1)]{qian} & Still open; a restricted two-ray gap is strengthened.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Our literature search was current to 3 November 2026. It covered arXiv full-text searches and the latest versions of the preprints cited here, the complex Hadamard and Hesse geometry references, and GitHub and Zenodo searches for code repositories on CQC. A bounded search of this kind cannot guarantee that no earlier statement exists.
+
+\paragraph{Roadmap.}
+Section~\ref{sec:defs} fixes notation and states the qutrit theorem and its Fisher-information reading. Section~\ref{sec:proof} proves the qutrit theorem in four steps. Section~\ref{sec:allmub} constructs the separable violations. Section~\ref{sec:discussion} discusses scope, reproducibility and open problems.
+
+\section{Definitions and the sharp qutrit theorem}\label{sec:defs}
+This section fixes notation, states the qutrit theorem, and explains what it means for estimation.
+
+All logarithms are natural. For a bipartite density operator, write $I(A:B)=S(\rho_A)+S(\rho_B)-S(\rho)$ for the quantum mutual information, and let $I(Q_A:Q_B)$ denote the Shannon mutual information of measured outcomes. The CQC gap is $G(\rho)=I(A:B)-I(Q_A:Q_B)-I(R_A:R_B)$. A negative gap is a violation.
+
+An ordered pair of orthonormal bases $Q=(q_j)$ and $R=(r_k)$ of $\C^d$ is \emph{mutually unbiased} (MUB) if $|\langle q_j,r_k\rangle|^2=1/d$ for every $j,k$. We use ``complementary'' and ``mutually unbiased'' interchangeably. For probability vectors $p,q$, the \emph{triangular discrimination} is
+\begin{equation}
+\Delta(p,q)=\sum_{j:p_j+q_j>0}\frac{(p_j-q_j)^2}{p_j+q_j}.
+\label{eq:delta}
+\end{equation}
+This convention has no factor of $1/2$, so $0\le\Delta\le2$. A summand with zero denominator is assigned zero. For orthonormal $u,v\in\C^d$, let $p^Q_j=|\langle q_j,u\rangle|^2$ and $q^Q_j=|\langle q_j,v\rangle|^2$, and define the analogous distributions in $R$. Write
+\begin{equation}
+\mathcal S_{Q,R}(u,v)=\Delta(p^Q,q^Q)+\Delta(p^R,q^R).
+\end{equation}
+
+\begin{theorem}[Sharp qutrit discrimination and equality]\label{thm:qutrit}
+For every mutually unbiased pair $Q,R$ in $\C^3$ and every orthonormal $u,v\in\C^3$,
+\begin{equation}
+\mathcal S_{Q,R}(u,v)\le\frac83.
+\label{eq:sharp}
+\end{equation}
+Equality holds if and only if there are $q_j\in Q$ and $r_k\in R$ such that
+\begin{equation}
+W:=\spanop\{u,v\}=\spanop\{q_j,r_k\},\qquad
+\proj{u}-\proj{v}=\pm\sqrt{\frac32}\bigl(\proj{q_j}-\proj{r_k}\bigr).
+\label{eq:equality}
+\end{equation}
+Phases of $u,v,q_j,r_k$ have no effect on these statements.
+\end{theorem}
+
+\paragraph{Reduction to the Fourier pair.}
+Write $Q$ and $R$ also for the unitary matrices whose columns are the basis vectors. Then $Q,R$ is a MUB pair exactly when $\sqrt d\,Q^*R$ is a complex Hadamard matrix. Two complex Hadamard matrices are \emph{equivalent} if $H_1=D_1P_1H_2P_2D_2$ with diagonal unitaries $D_i$ and permutation matrices $P_i$ \cite[Definition~2.2, equation~(5)]{tadej}. Transposition and complex conjugation are not part of this equivalence and are not needed here. Every order-three complex Hadamard matrix is equivalent to the Fourier matrix \cite[Section~5.3]{tadej}. So $R=QD_1P_1F_3P_2D_2$, where
+\begin{equation}
+F_3=\frac1{\sqrt3}\bigl(\omega^{jk}\bigr)_{j,k=0}^{2},\qquad
+\omega=\frac{-1+i\sqrt3}{2}.
+\end{equation}
+The value $\mathcal S_{Q,R}(u,v)$ depends only on the two sets of basis rays. The right-hand factors $P_2D_2$ only reorder and rephase the vectors of $R$. The matrix $V=QD_1P_1$ has the same rays as $Q$. Replacing $(u,v)$ by $(V^*u,V^*v)$ therefore reduces the theorem to the computational basis and the columns of $F_3$. For that pair, the nine possible rays $W^\perp$ in the equality statement are the cyclic coordinate permutations of
+\begin{equation}
+\frac1{\sqrt2}(0,1,-\omega^k),\qquad k=0,1,2.
+\label{eq:hesse}
+\end{equation}
+These are the standard Hesse symmetric informationally complete (SIC) rays \cite{stacey}. Their appearance here is an equality classification for the discrimination functional, not a new construction of the Hesse SIC.
+
+\begin{corollary}[A measurement-efficiency bound]\label{cor:fisher}
+For fixed orthonormal qutrit states $u,v$, consider the family
+\[
+\rho_\theta=\frac{1+\theta}{2}\proj{u}+\frac{1-\theta}{2}\proj{v},\qquad |\theta|<1.
+\]
+Choose $Q$ or $R$ with probability $1/2$, independently of $\theta$, and record the setting together with the outcome. The classical Fisher information at $\theta=0$ is at most $2/3$. The quantum Fisher information is $1$, and the fraction $2/3$ is attained exactly by the configurations in Theorem~\ref{thm:qutrit}.
+\end{corollary}
+\begin{proof}
+For one setting the outcome law is $(p_j+q_j+\theta(p_j-q_j))/2$, so its Fisher information at zero is $\Delta(p,q)/2$. Averaging over the two recorded settings gives $\mathcal S/4$. The state is diagonal in the fixed basis $u,v$, with eigenvalues $(1\pm\theta)/2$, so its quantum Fisher information is $1/(1-\theta^2)$. Apply Theorem~\ref{thm:qutrit} at $\theta=0$.
+\end{proof}
+
+\paragraph{What the corollary means in practice.}
+Consider estimating the weight $\theta$ of a two-state mixture near the balanced point. With full freedom one would measure in the basis $\{u,v\}$; this attains the quantum Fisher information $1$. Suppose instead that the apparatus can only measure in one of two fixed complementary bases, chosen at random and recorded. The corollary says that at most two thirds of the attainable information survives, however the signal states are oriented relative to the bases. The value $2/3$ is a cap over all orientations of $(u,v)$, reached only at the equality configurations of Theorem~\ref{thm:qutrit}; typical orientations recover less. Mutually unbiased measurements are known to be optimal for full state determination \cite{wootters}. The corollary quantifies their cost for a single, known pair of signal states.
+
+\section{Proof by an exact polynomial certificate}\label{sec:proof}
+The proof has four steps. We (1) reduce the problem to the largest eigenvalue of a $3\times3$ matrix; (2) write the eigenvalue condition as one polynomial inequality; (3) certify that polynomial nonnegative with an exact rational certificate; and (4) read off the equality cases from the certificate.
+
+\subsection{Step 1: the compressed frame and the determinant}
+Let $W\subset\C^3$ be a two-dimensional plane and $P=P_W$. Each measurement vector $e$ can be \emph{compressed} to $W$: we keep only the operator $Pe e^*P$ on $W$. Such an operator is described by its trace $g_e$ and a three-component Bloch-type vector $a_e$. We call the collection of these vectors the \emph{compressed frame}. Precisely, on the real three-dimensional space of traceless Hermitian operators supported on $W$, choose a basis $T_1,T_2,T_3$ orthonormal for $\langle X,Y\rangle=\Tr(XY)$. For the six measurement vectors $e\in Q\cup R$, set
+\[
+g_e=\langle e,Pe\rangle,\qquad
+a_e=(\langle e,T_1e\rangle,\langle e,T_2e\rangle,\langle e,T_3e\rangle)^T,
+\qquad A_W=\sum_{e:g_e>0}\frac{a_ea_e^T}{g_e}.
+\]
+The following facts are the frame reduction of \cite[Sections~6.3--6.4]{qian}. We include a short derivation because the certificate depends on the normalisation.
+
+\begin{lemma}\label{lem:frame}
+The matrix $A_W$ is positive semidefinite, $\Tr A_W=2$, and
+\begin{equation}
+\max_{u,v\text{ orthonormal in }W}\mathcal S_{Q,R}(u,v)
+=2\lambda_{\max}(A_W).
+\end{equation}
+Moreover,
+\begin{equation}
+\lambda_{\max}(A_W)\le\frac43
+\quad\Longleftrightarrow\quad
+\det\left(\frac43I_3-A_W\right)\ge0.
+\label{eq:gate}
+\end{equation}
+\end{lemma}
+Following Qian, we call the determinant condition in \eqref{eq:gate} the \emph{gate}: the bound $8/3$ holds on $W$ exactly when the gate is open, that is, when the determinant is nonnegative.
+\begin{proof}
+For $J=\proj{u}-\proj{v}$, one has $\Tr J^2=2$ and
+$\mathcal S=\sum_e\langle e,Je\rangle^2/g_e$. Conversely, every traceless Hermitian operator on $W$ with squared Hilbert--Schmidt norm two has eigenvalues $+1,-1$, so arises this way. The maximum is therefore twice the largest eigenvalue of the quadratic form.
+
+For the trace, we use the polarised qubit identity
+\begin{equation}
+a_e^Ta_f=|\langle e,Pf\rangle|^2-\frac12g_eg_f.
+\label{eq:polarised}
+\end{equation}
+To derive it, expand the rank-one operator $Pee^*P$ on $W$ in the orthonormal basis $P/\sqrt2,T_1,T_2,T_3$: since $\Tr(Pee^*P)=g_e$ and $\Tr(T_kPee^*P)=\langle e,T_ke\rangle$, we get $Pee^*P=\tfrac{g_e}{2}P+\sum_k(a_e)_kT_k$. Taking the Hilbert--Schmidt inner product with the same expansion for $f$ gives $|\langle e,Pf\rangle|^2=\tfrac12g_eg_f+a_e^Ta_f$.
+
+In particular $\|a_e\|^2=g_e^2/2$. Since $\sum_{e\in Q\cup R}g_e=4$, the trace is two. Finally, if any eigenvalue of $A_W$ exceeds $4/3$, it is the only one that can do so: a second such eigenvalue would contradict the trace. The other two factors of the determinant in \eqref{eq:gate} are then strictly positive, so the determinant is negative. The reverse implication is immediate. This also covers zero eigenvalues and equality at $4/3$.
+\end{proof}
+
+\subsection{Step 2: a rational polynomial representing the gate}
+Write $W=w^\perp$. A global phase makes the first coordinate of $w$ real, allowing the homogeneous coordinates
+\begin{equation}
+w=(r,a+i\sqrt3 b,c+i\sqrt3 d),\quad
+\nu=\|w\|^2=r^2+a^2+3b^2+c^2+3d^2,
+\label{eq:coordinates}
+\end{equation}
+where all five variables are real and $w\ne0$. No nonzero ray is omitted when the first coordinate vanishes. Use unnormalised measurement vectors
+\[
+E_0=e_0,\ E_1=e_1,\ E_2=e_2,\qquad
+E_{3+j}=(1,\omega^j,\omega^{2j})^T\quad(j=0,1,2),
+\]
+and $\ell_i=\|E_i\|^2$, so $\ell=(1,1,1,3,3,3)$. Define
+\begin{align}
+C_{ij}&=\nu E_i^*E_j-(E_i^*w)(w^*E_j),&
+B_i&=C_{ii},&D_i&=\ell_i B_i,\\
+M_{ij}&=|C_{ij}|^2-\tfrac12 B_iB_j.
+\end{align}
+Then $g_i=B_i/(\nu\ell_i)$. The six-vector Gram matrix associated with \eqref{eq:polarised} has entries
+\begin{equation}
+\frac{M_{ij}}{\nu\sqrt{D_iD_j}}.
+\label{eq:gram6}
+\end{equation}
+Its nonzero eigenvalues agree with those of $A_W$. Let $\mathcal D=\prod_{i=0}^5D_i$. Clearing denominators gives a homogeneous rational polynomial $\mathcal P$ of degree twelve:
+\begin{equation}
+\mathcal P(r,a,b,c,d)=\frac{\mathcal D}{2}
+\det\left(\frac43I_3-A_W\right)
+=\frac{729}{2}\nu^6\!\left(\prod_i g_i\right)
+\det\left(\frac43I_3-A_W\right).
+\label{eq:polynomial-normalisation}
+\end{equation}
+To define $\mathcal P$ by polynomial operations alone, form
+\begin{align}
+\mathcal R={}&-\frac{32}{27}\nu\mathcal D
++\frac43\sum_{i<j}\frac{\det M[\{i,j\}]}{\nu}
+                   \prod_{h\notin\{i,j\}}D_h\nonumber\\
+&-\sum_{i<j<k}\frac{\det M[\{i,j,k\}]}{\nu^2}
+                   \prod_{h\notin\{i,j,k\}}D_h,
+\qquad \mathcal P=\frac{\mathcal R}{2\nu}.
+\label{eq:polynomial-definition}
+\end{align}
+Here $M[S]$ denotes a principal submatrix. Every displayed division is exact in the polynomial ring over $\mathbb Q$ after substitution of \eqref{eq:coordinates}; the verifier checks each remainder. Alternatively, the pair and triple minors are respectively
+\[
+|C_{ij}|^2(B_iB_j-|C_{ij}|^2),\qquad
+2\bigl(\operatorname{Im}(C_{ij}C_{jk}C_{ki})\bigr)^2.
+\]
+Formula \eqref{eq:polynomial-definition} follows from $\det(4I/3-A)=-32/27+(4/3)e_2(A)-e_3(A)$ and the principal-minor expansion of \eqref{eq:gram6}. It fixes the target without relying on a list of numerical coefficients.
+
+\subsection{Step 3: the exact positivity certificate}
+\begin{lemma}[Rational certificate]\label{lem:sos}
+The polynomial $\mathcal P$ defined by \eqref{eq:polynomial-definition} admits the exact identity
+\begin{equation}
+\mathcal P=\sum_{j=1}^{4} b_j^T G_j b_j,
+\qquad G_j\succeq\frac{207}{1000}I,
+\label{eq:sos}
+\end{equation}
+where $b_j$ are vectors of homogeneous rational sextics of lengths $43,41,40,41$, and the four $G_j$ are rational symmetric matrices. The vectors and matrices are given in the file \texttt{exact\_sos\_certificate.json} of the proof supplement.
+\end{lemma}
+\begin{proof}[Exact computational verification]
+The standalone verifier rebuilds \eqref{eq:polynomial-definition} from the six measurement vectors, using direct three-by-three determinants, and compares every coefficient with the certificate. It checks \eqref{eq:sos} in the rational polynomial ring, including all zero coefficients among the $\binom{16}{4}=1820$ monomials of degree twelve in five variables. The target has 671 nonzero coefficients.
+
+For positivity, each block comes with a rational auxiliary matrix $H_j$. Exact rational $LDL^T$ elimination shows that every pivot of $H_j-I/4$ is positive. The verifier also checks the entrywise bound $|(G_j-H_j)_{kl}|\le1/1000$. Since each block has at most 43 rows,
+\[
+\|G_j-H_j\|_2\le\|G_j-H_j\|_\infty\le\frac{43}{1000},
+\]
+which proves the lower bound in \eqref{eq:sos}. All checks are comparisons or identities in rational arithmetic. Neither optimisation tolerances nor numerical eigenvalues enter.
+\end{proof}
+
+\paragraph{Where the certificate comes from.}
+The certificate was found numerically and then made exact. A semidefinite solver produced approximate Gram matrices. These were rounded to rationals with denominator $10^8$, giving the auxiliary matrices $H_j$. A small exact correction on selected entries then made the polynomial identity \eqref{eq:sos} hold exactly, giving $G_j$. Every correction is at most $1/1000$ in absolute value. The margin $207/1000=1/4-43/1000$ is simply what this rounding leaves. The numerical solver is not part of the proof; only the exact checks above are.
+
+\paragraph{Why there are four blocks.}
+The polynomial $\mathcal P$ is invariant under a Klein four-group, generated by two commuting symmetries of order two. Complex conjugation of $w$, which is $(b,d)\mapsto(-b,-d)$, fixes the computational basis and permutes the Fourier vectors. Exchanging the last two coordinates, $(a,b)\leftrightarrow(c,d)$, does the same. The group has four characters, and a basis of sextics adapted to them splits into four parts: even or odd total degree in $(b,d)$ (label $p\in\{0,1\}$), and symmetric or antisymmetric under the exchange (label $s=\pm1$). For an invariant polynomial, the Gram matrix of a sum-of-squares decomposition can then be chosen block diagonal, with one block per character; this is the standard symmetry reduction for sums of squares. The four Gram blocks $[p,s]=[0,1],[0,-1],[1,1],[1,-1]$ have sizes $43,41,40,41$. The equality configurations have a much larger symmetry group, generated by the qutrit Clifford operations that preserve the computational/Fourier pair. Reducing the certificate by that group is a plausible route to a short analytic proof. We have not carried this out.
+
+\paragraph{Locating and running the certificate.}
+The certificate and verifier are deposited at \url{https://doi.org/10.5281/zenodo.23933731} (version 0.1.0-candidate; all versions: \url{https://doi.org/10.5281/zenodo.23933730}), with a mirror at \url{https://github.com/ipitchford/qutrit-complementary-discrimination}. The JSON file is 660,609 bytes, with SHA-256
+\begin{center}\small\ttfamily
+825bb8108096d38a44f63f1bc91964405d189ad57b5f568530b5d8e27d598c2f
+\end{center}
+From the supplement directory, with SymPy 1.14.0 and python-flint 0.9.0 installed, the command
+\begin{center}\small\ttfamily
+python -B scout\_qutrit/verify\_qutrit\_sos.py scout\_qutrit/exact\_sos\_certificate.json
+\end{center}
+ends with the line \texttt{VERIFIED: exact SOS, strict Gram positivity, gate normalization, and equality witnesses}. It takes about 25--45 seconds on a laptop; our runs took 23--24 seconds. Every check is unconditional, so the result is the same under \texttt{python -O}, and a supplied script confirms that five kinds of corrupted certificate are rejected. This is a computer-assisted algebraic proof; it has not been formalised in a proof assistant.
+
+When all $g_i>0$, the multiplier in \eqref{eq:polynomial-normalisation} is positive. Lemmas~\ref{lem:frame} and \ref{lem:sos} therefore prove \eqref{eq:sharp}. The exceptional denominators occur exactly when $w$ is one of the six measurement rays. The function \eqref{eq:delta} is continuous at a zero denominator, because $(p-q)^2/(p+q)\le p+q$. Approximation on the manifold of orthonormal pairs extends the bound to those planes as well.
+
+\subsection{Step 4: completeness of the equality classification}
+Put $z=a+i\sqrt3b$ and $t=c+i\sqrt3d$, and form the holomorphic sextics
+\begin{align}
+h_1&=r^2z(z^3+r^3-2rzt),&
+h_2&=r^2t(t^3+r^3-2rzt),&
+h_3&=r^2zt(zt-r^2).
+\label{eq:zero-witnesses}
+\end{align}
+The certificate includes exact identities expressing the real and imaginary parts of $h_1+h_2$, $h_1-h_2$ and $h_3$ as linear combinations of the components of the sextic vectors $b_j$. The imaginary parts are divided by $\sqrt3$ so all coefficients are rational. The verifier checks all six identities against \eqref{eq:zero-witnesses}.
+
+If $\mathcal P=0$, the strict positive definiteness in \eqref{eq:sos} forces all components of all $b_j$ to vanish. Hence $h_1=h_2=h_3=0$. First suppose $r\ne0$ and divide the coordinates by $r$. The last identity gives $zt=0$ or $zt=1$. In the first case, either both coordinates vanish, or the nonzero coordinate has cube $-1$. In the second case, the first two identities give $z^3=t^3=1$ and $zt=1$. These are exactly the computational ray $e_0$, the three Fourier rays, and the six Hesse rays with nonzero first coordinate.
+
+Now suppose the first coordinate vanishes. Permute a nonzero coordinate into the first position and fix the phase again. Every permutation of three coordinates is an affine permutation of $\mathbb Z_3$, so it preserves the computational/Fourier pair up to phases and outcome labels. The gate determinant $\det(4I/3-A_W)$ depends only on the set of measurement rays, so it is unchanged by the permutation. Away from the denominator zeros, $\mathcal P$ differs from that determinant by the positive factor in \eqref{eq:polynomial-normalisation}. The zero sets therefore correspond, and this chart reduces to the previous one.
+
+At a measurement ray, the six extra zeros are zeros of $\mathcal P$ only through the factor $\prod_ig_i$ in \eqref{eq:polynomial-normalisation}; the determinant itself is not zero there. A direct calculation gives
+\[
+\operatorname{spec}(A_W)=(1,1/2,1/2),\qquad
+\det(4I/3-A_W)=25/108,
+\]
+so these planes cannot attain $\mathcal S=8/3$. Only the nine planes in \eqref{eq:hesse} remain.
+
+For such a plane $W=\spanop\{q_j,r_k\}$, the spectrum of $A_W$ is computed in Qian's analysis of this doubly degenerate stratum \cite[Section~6.5, Proposition~6.9]{qian}; we use it here for the converse direction. (A \emph{stratum} here is a set of planes with the same incidence pattern with the measurement vectors.) Each compressed measurement is a binary projective measurement followed by subdivision of one outcome. Its frame matrix is a rank-one projector onto the corresponding qubit Bloch axis. The two axes have dot product $2/3-1=-1/3$, so $A_W$ has spectrum $(4/3,2/3,0)$. Its principal eigendirection is the difference of the two axes. The state difference with eigenvalues $\pm1$ is therefore exactly \eqref{eq:equality}. This proves both directions of the equality statement and completes the proof of Theorem~\ref{thm:qutrit}.
+
+\begin{corollary}[A stronger gap for the two-ray family]\label{cor:tworay}
+Let Alice measure the Pauli bases $Z,X$, let Bob measure any complementary qutrit pair, and let $u,v$ be any orthonormal qutrit states. For the equal-prior two-ray state
+\[
+\rho=\tfrac12\proj{0}\otimes\proj{u}+\tfrac12\proj{+}\otimes\proj{v},
+\qquad \ket{+}=(\ket0+\ket1)/\sqrt2,
+\]
+the CQC gap obeys
+\begin{equation}
+G(\rho)\ge h(1/\sqrt2)-\frac32\log\frac43+\frac16\log2
+=0.100496952115340\ldots\ \text{nats},
+\label{eq:tworay-gap}
+\end{equation}
+where $h(s)=H((1+s)/2,(1-s)/2)$ and $H(p)=-\sum_jp_j\log p_j$ is Shannon entropy, with $0\log0=0$.
+\end{corollary}
+\begin{proof}
+Qian's entropy-envelope theorem \cite[Theorem~6.3]{qian} applies to exactly this family: equal priors, Alice branch states one $Z$ eigenvector and one $X$ eigenvector, orthonormal Bob branch states, and any MUB pair on Bob in any dimension. It gives
+$G\ge h(1/\sqrt2)-(3/2)\log(4/3)+(\log2)(2-\mathcal S/2)/4$. Substitute $\mathcal S\le8/3$. The decimal is illustrative; the displayed entropy expression is the exact bound.
+\end{proof}
+This improves the previous certified lower bound $0.012020949971$ nats for the same family, which holds for the computational/Fourier pair \cite[Corollary~6.11]{qian}. It does not cover unequal priors, nonorthogonal Bob states, other Alice branch states or general qubit--qutrit density operators.
+
+\input{sections/correlation.tex}
+
+\section{Discussion}\label{sec:discussion}
+This section summarises how each result is verified, what the results do and do not imply, and what remains open.
+
+\paragraph{How the results are verified.}
+The two main theorems are verified differently. The qutrit theorem combines a human-readable frame reduction with finite exact algebra; its certificate file is an essential part of the proof. The correlation counterexamples are analytic, with elementary rational bounds; numerical entropy calculations serve only as checks. A fresh run of the standalone verifier checks the positivity blocks, all polynomial coefficients, an independent derivation of the gate polynomial, and all equality identities. No search code or stored optimiser output is needed.
+
+\paragraph{What the results imply.}
+The uniform margin in Theorem~\ref{thm:allmub-qubit} is deliberately conservative. Its purpose is to certify one finite parameter choice for all dimensions and all prescribed bases, not to suggest an experimentally convenient violation. The theorem rules out any state-independent repair of CQC that relies only on choosing a different complementary pair in those dimensions. It says nothing against correlation witnesses with separately proved bounds. For example, entropic uncertainty relations with quantum memory give proved, state-independent bounds and remain valid tools \cite{berta,coles}.
+
+The sharp qutrit constant concerns two orthogonal signal states with equal weights. Corollary~\ref{cor:fisher} concerns local estimation at the equal mixture, with the measurement setting recorded. The full $2\times3$ CQC problem is a different and stronger statement about arbitrary bipartite states, and it remains open. Likewise, the threshold $c=1/2$ for the curvature family does not establish a global CQC theorem for two-qubit states with nonorthogonal measurement axes.
+
+\paragraph{Other dimensions.}
+At $d=3$ the sharp constant equals $4-4/d$, the value Qian computed on the doubly degenerate stratum in every dimension \cite[Section~6.5]{qian}. This pattern should not be extrapolated. At $d=5$ the stratum gives only $16/5$, while the larger value $(14+2\sqrt5)/5$ is attained \cite[Sections~6.5, 6.7]{qian}.
+For the computational and Fourier bases in $d=5$, a numerical search (40 random starts; not a proof) finds the maximum of $\mathcal S$ equal to $(14+2\sqrt5)/5=3.694427\ldots$ to nine digits, so the attained value appears to be the maximum. Qian's route to an upper bound $\mathcal S\le S^\star$ in $d=5$ needs a lower bound $X\ge0.1697$ over all planes, where $X$ is Qian's lower bound for the second elementary symmetric function $e_2(A_W)$ \cite[equation~(24) and Section~11(3)]{qian}; the same search finds $X\ge0.238$ numerically. We have not proved any rigorous upper bound in $d=5$, and the question remains open. The planes now form a $12$-dimensional real manifold, compared with $4$ in $d=3$, so a rigorous interval cover of the kind Qian used in $d=3$ is much more expensive.
+
+\paragraph{Open problems.}
+The natural next step is a proof or counterexample for the full qubit--qutrit inequality. This paper identifies the sharp geometry of Qian's two-ray family and shows that, from dimension four upwards, counterexamples persist for every choice of complementary measurements. A shorter analytic proof of the qutrit polynomial inequality, perhaps through the symmetry reduction sketched in Section~\ref{sec:proof}, would make the first result easier to check by hand.
+
+\paragraph{Status, provenance and licence.}
+This work was produced with AI assistance. The qutrit theorem is a computer-assisted proof: its exact certificate is checked by a standalone program, but neither the certificate nor the analytic arguments have been formalised in a proof assistant. No experimental data or private datasets were used. The text of this paper is released under CC0-1.0, and the accompanying code under the MIT licence.
+
+\begin{thebibliography}{99}
+\bibitem{schneeloch}
+Schneeloch, J., Broadbent, C. J., \& Howell, J. C. (2014).
+Uncertainty relation for mutual information.
+\emph{Physical Review A, 90}(6), 062119.
+\url{https://doi.org/10.1103/PhysRevA.90.062119}
+
+\bibitem{berta}
+Berta, M., Christandl, M., Colbeck, R., Renes, J. M., \& Renner, R. (2010).
+The uncertainty principle in the presence of quantum memory.
+\emph{Nature Physics, 6}(9), 659--662.
+\url{https://doi.org/10.1038/nphys1734}
+
+\bibitem{coles}
+Coles, P. J., Berta, M., Tomamichel, M., \& Wehner, S. (2017).
+Entropic uncertainty relations and their applications.
+\emph{Reviews of Modern Physics, 89}(1), 015002.
+\url{https://doi.org/10.1103/RevModPhys.89.015002}
+
+\bibitem{wootters}
+Wootters, W. K., \& Fields, B. D. (1989).
+Optimal state-determination by mutually unbiased measurements.
+\emph{Annals of Physics, 191}(2), 363--381.
+\url{https://doi.org/10.1016/0003-4916(89)90322-9}
+
+\bibitem{alper}
+AlperTheKing (2026).
+\emph{cqc-counterexample: Exact qutrit counterexample to the complementary-quantum-correlation conjecture, with independent exact verification} [GitHub repository, created 26 July 2026].
+\url{https://github.com/AlperTheKing/cqc-counterexample}
+
+\bibitem{oconnor}
+O'Connor, E. (repository owner; Zenodo creator listed as OpenAI GPT-5.6 Pro) (2026).
+\emph{Exact qutrit counterexample to the CQC conjecture} (Version v1.1.1, 28 July 2026) [Software]. Zenodo.
+\url{https://doi.org/10.5281/zenodo.21499722}.
+GitHub repository EthanOConnor/cqc-qutrit-counterexample (created 22 July 2026), file \texttt{research/cqc-extensions/sections-1-2.tex}, subsection ``Dependence on the chosen MUB pair''.
+\url{https://github.com/EthanOConnor/cqc-qutrit-counterexample}
+
+\bibitem{iqbal}
+Iqbal, H. (2026).
+On the CQC conjecture: a sufficient condition and an extension.
+\emph{Quantum Information Processing, 25}(8), 250.
+\url{https://doi.org/10.1007/s11128-026-05258-2}.
+Preprint: arXiv:2509.08286 (Version 2, 24 May 2026).
+\url{https://arxiv.org/abs/2509.08286v2}
+
+\bibitem{qian}
+Qian, L. (2026). \emph{Separable counterexamples to complementary quantum correlations, and why random search missed them} (Version 2, 19 August 2026; Version 1, 14 August 2026). arXiv:2608.14806.
+\url{https://arxiv.org/abs/2608.14806v2}
+
+\bibitem{wangcounter}
+Wang, J., Wang, Q., \& Chen, K. (2026a).
+\emph{When complementary measurements count the same classical bit twice: Counterexamples to CQC, ECQC, and complementarity-based certification} (Version 3, 25 September 2026; Version 1, 4 August 2026). arXiv:2608.03828.
+\url{https://arxiv.org/abs/2608.03828v3}
+
+\bibitem{wangqubits}
+Wang, J., Wang, Q., \& Chen, K. (2026b).
+\emph{Complementary quantum correlations are universal for qubits} (Version 1, 5 August 2026). arXiv:2608.04916.
+\url{https://arxiv.org/abs/2608.04916v1}
+
+\bibitem{tadej}
+Tadej, W., \& \.{Z}yczkowski, K. (2006).
+A concise guide to complex Hadamard matrices.
+\emph{Open Systems \& Information Dynamics, 13}(2), 133--177.
+\url{https://doi.org/10.1007/s11080-006-8220-2}.
+Preprint: arXiv:quant-ph/0512154 (Version 2, 25 May 2006).
+\url{https://arxiv.org/abs/quant-ph/0512154v2}
+
+\bibitem{stacey}
+Stacey, B. C. (2016).
+SIC-POVMs and compatibility among quantum states.
+\emph{Mathematics, 4}(2), 36.
+\url{https://doi.org/10.3390/math4020036}
+\end{thebibliography}
+\end{document}

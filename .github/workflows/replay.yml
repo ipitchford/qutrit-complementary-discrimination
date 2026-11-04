@@ -1,0 +1,47 @@
+# SPDX-License-Identifier: MIT
+name: Replay
+on:
+  push:
+  pull_request:
+jobs:
+  exact:
+    name: Exact checks (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check MANIFEST.sha256
+        run: sha256sum -c MANIFEST.sha256
+      - name: Install pinned exact packages
+        run: python -m pip install -r requirements-exact.txt
+      - name: Exact SOS certificate, with and without -O (no assert; every check exits 1 on failure)
+        run: |
+          python -I -B scout_qutrit/verify_qutrit_sos.py scout_qutrit/exact_sos_certificate.json | tee "$RUNNER_TEMP/sos.log"
+          python -I -B -O scout_qutrit/verify_qutrit_sos.py scout_qutrit/exact_sos_certificate.json | tee "$RUNNER_TEMP/sos_O.log"
+          grep -q "^VERIFIED: exact SOS" "$RUNNER_TEMP/sos.log"
+          grep -q "^VERIFIED: exact SOS" "$RUNNER_TEMP/sos_O.log"
+      - name: Negative controls (five corrupted certificates rejected in both modes)
+        run: python -I -B scout_qutrit/negative_controls.py scout_qutrit/exact_sos_certificate.json
+      - name: Certified margins (stdlib Fraction arithmetic), with and without -O
+        run: |
+          python -I -B scout_cqc/certified_margin.py
+          python -I -B -O scout_cqc/certified_margin.py
+      - name: Working tree unchanged
+        run: test -z "$(git status --porcelain)"
+  numerical:
+    name: Numerical cross-checks (non-blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r requirements-numerical.txt
+      - run: |
+          python -I -B scout_cqc/check_final_family.py
+          python -I -B -O scout_cqc/check_final_family.py

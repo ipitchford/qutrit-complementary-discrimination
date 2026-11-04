@@ -1,0 +1,27 @@
+# command: uv run --python 3.12 --with numpy==2.5.4 python3 -I -B  scout_cqc/check_final_family.py
+# date: 2026-11-04T00:04:23Z
+Fourier n=5: c=0.600000000000, G=-7.91335253103e-07, min support eigenvalue=0.17013169525
+Fourier n=6: c=0.666666666667, G=-1.82830979312e-06, min support eigenvalue=0.170409626892
+Fourier n=7: c=0.714285714286, G=-2.56940305632e-06, min support eigenvalue=0.17062639513
+Fourier n=11: c=0.818181818182, G=-4.18748260111e-06, min support eigenvalue=0.171176593562
+Fourier n=20: c=0.900000000000, G=-5.46282909131e-06, min support eigenvalue=0.171741589704
+Hadamard4 theta=0.000000: c=1.000000000000, G=-7.02291270538e-06, min support eigenvalue=0.173387662139
+Hadamard4 theta=1.570796: c=1.000000000000, G=-7.02291270538e-06, min support eigenvalue=0.173387662139
+Hadamard4 theta=0.731000: c=1.000000000000, G=-7.02291270538e-06, min support eigenvalue=0.173387662139
+random n=4 trial 0: c=1.000000000000, G=-7.02291270382e-06, min support eigenvalue=0.173387662139
+random n=4 trial 1: c=1.000000000000, G=-7.02291270516e-06, min support eigenvalue=0.173387662139
+random n=4 trial 2: c=1.000000000000, G=-7.02291270382e-06, min support eigenvalue=0.173387662139
+random n=4 trial 3: c=1.000000000000, G=-7.02291270405e-06, min support eigenvalue=0.173387662139
+random n=5 (Fourier class) trial 0: c=0.600000000000, G=-7.91335251993e-07, min support eigenvalue=0.17013169525
+random n=5 (Fourier class) trial 1: c=0.600000000000, G=-7.91335252437e-07, min support eigenvalue=0.17013169525
+random n=6 (Fourier class) trial 0: c=0.666666666667, G=-1.82830979334e-06, min support eigenvalue=0.170409626892
+random n=6 (Fourier class) trial 1: c=0.666666666667, G=-1.82830979489e-06, min support eigenvalue=0.170409626892
+random n=7 (Fourier class) trial 0: c=0.714285714286, G=-2.56940305698e-06, min support eigenvalue=0.17062639513
+random n=7 (Fourier class) trial 1: c=0.714285714286, G=-2.56940305743e-06, min support eigenvalue=0.17062639513
+random n=8 (Fourier class) trial 0: c=0.750000000000, G=-3.12544019843e-06, min support eigenvalue=0.1708016106
+random n=8 (Fourier class) trial 1: c=0.750000000000, G=-3.12544019732e-06, min support eigenvalue=0.1708016106
+random n=8 (F2xF2xF2 class) trial 0: c=0.750000000000, G=-3.12544019954e-06, min support eigenvalue=0.1708016106
+random n=8 (F2xF2xF2 class) trial 1: c=0.750000000000, G=-3.12544019954e-06, min support eigenvalue=0.1708016106
+Exact rational gap bound: -17117/114750000000
+ALL CHECKS PASSED
+# exit status: 0

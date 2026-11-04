@@ -1,0 +1,106 @@
+{
+  "title": "Sharp qutrit discrimination and unavoidable correlation overcounting for complementary measurements",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "description": "<p><strong>Unrefereed research candidate.</strong> Two results on complementary (mutually unbiased) measurements and the complementary quantum correlation (CQC) inequality of Schneeloch, Broadbent and Howell (2014), which proposed that the classical correlations in two complementary measurement tables never exceed the quantum mutual information.</p><p><strong>1. Sharp qutrit discrimination.</strong> For every pair of complementary bases of a qutrit and every two orthogonal states, the triangular discrimination summed over the two bases is at most 8/3 (the trivial ceiling is 4), answering Qian, arXiv:2608.14806v2, Section 11(4). Every equality case is classified; for the computational and Fourier bases they are tied to the nine Hesse SIC rays. Consequences: choosing one of the two measurements at random recovers at most two thirds of the quantum Fisher information in a two-state estimation task, and Qian's two-ray qubit-qutrit family obeys CQC with margin at least 0.1005 nats. The proof is computer-assisted: an exact rational sum-of-squares certificate (scout_qutrit/exact_sos_certificate.json, 660,609 bytes, SHA-256 825bb8108096d38a44f63f1bc91964405d189ad57b5f568530b5d8e27d598c2f) checked by a standalone exact verifier; this deposit is the certificate's citable locator.</p><p><strong>2. Every prescribed pair fails for a qubit and a qudit of dimension n &ge; 4.</strong> For every prescribed pair of complementary measurements on each side there is a separable state violating CQC, with a uniform certified margin below &minus;9/20,000,000 nats (previously the every-pair statement was known only for n &ge; 164). A phase-averaging extension of the known shared-label mechanism covers every prescribed pair when both dimensions are at least three; an earlier, unchecked every-pair statement for equal dimensions by E. O'Connor is credited.</p><p>Open: the full qubit-qutrit CQC question and the sharp constant in dimension 5 (numerics only). The margins are tiny and structural, not experimental. The archive contains the manuscript (PDF and LaTeX), the exact certificate and verifier, negative controls, an exact rational margin checker, numerical cross-checks, working proof notes, novelty audits, the bibliography with registry records, CI and SHA-256 sums. Assurance: computer-assisted exact rational arithmetic, not a formal proof; internal AI-assisted review only (not human peer review or independent reproduction). Creator: Anonymous. Text CC0-1.0; code MIT.</p>",
+  "creators": [
+    {
+      "name": "Anonymous"
+    }
+  ],
+  "access_right": "open",
+  "license": "cc-zero",
+  "version": "0.1.0-candidate",
+  "publication_date": "2026-11-04",
+  "keywords": [
+    "mutually unbiased bases",
+    "complementary quantum correlations",
+    "CQC conjecture",
+    "triangular discrimination",
+    "qutrit",
+    "sum-of-squares certificate",
+    "separable states",
+    "quantum mutual information",
+    "Fisher information",
+    "SIC-POVM"
+  ],
+  "notes": "Code (the .py files and the CI workflow) is MIT; prose, manuscript, certificate data and records are CC0-1.0. Bibliographic records in refs/ are factual metadata from Crossref, arXiv, GitHub and Zenodo.",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/ipitchford/qutrit-complementary-discrimination/tree/v0.1.0-candidate",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://evidencepress.org/releases/qutrit-complementary-discrimination/",
+      "relation": "isDocumentedBy",
+      "scheme": "url"
+    },
+    {
+      "identifier": "10.1103/PhysRevA.90.062119",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.1038/nphys1734",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.1103/RevModPhys.89.015002",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.1016/0003-4916(89)90322-9",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.21499722",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.1007/s11128-026-05258-2",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.1007/s11080-006-8220-2",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.3390/math4020036",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "arXiv:2509.08286",
+      "relation": "references",
+      "scheme": "arxiv"
+    },
+    {
+      "identifier": "arXiv:2608.14806",
+      "relation": "references",
+      "scheme": "arxiv"
+    },
+    {
+      "identifier": "arXiv:2608.03828",
+      "relation": "references",
+      "scheme": "arxiv"
+    },
+    {
+      "identifier": "arXiv:2608.04916",
+      "relation": "references",
+      "scheme": "arxiv"
+    },
+    {
+      "identifier": "arXiv:quant-ph/0512154",
+      "relation": "references",
+      "scheme": "arxiv"
+    }
+  ],
+  "doi": "10.5281/zenodo.23933731"
+}

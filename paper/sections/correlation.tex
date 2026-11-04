@@ -1,0 +1,656 @@
+\section{Separable violations for every prescribed measurement pair}
+\label{sec:allmub}
+
+This section builds the separable violations in three steps. We first
+compress each prescribed qudit measurement pair to a pair of binary
+measurements on a plane (Section~\ref{sec:compression}). We then compute
+the curvature of the gap for an explicit separable family on a qubit pair
+(Section~\ref{sec:curvature}), and turn it into one finite witness that
+works for every dimension and every prescribed pair
+(Section~\ref{sec:witness}). The last subsection treats the case where both
+local dimensions are at least three.
+
+All logarithms in this section are natural.  For prescribed local
+measurement pairs $(Q_A,R_A)$ and $(Q_B,R_B)$, write
+\begin{equation}
+ G(\rho)=I(A:B)_\rho-I(Q_A:Q_B)_\rho-I(R_A:R_B)_\rho.
+ \label{eq:cqc-gap}
+\end{equation}
+Here $I(A:B)_\rho=S(\rho_A)+S(\rho_B)-S(\rho)$ is quantum mutual
+information and the other terms are the Shannon mutual informations of
+the measurement outcomes.  The CQC inequality asserts $G(\rho)\geq0$.
+We take each measurement to be a rank-one projective measurement in an
+orthonormal basis.  Two bases are mutually unbiased if all their squared
+overlaps equal the reciprocal of the local dimension.
+
+Our first result concerns a quantifier stronger than the existence of
+one violating measurement pair.  Qian's all-MUB theorem establishes
+separable violations for every prescribed Bob MUB pair when Bob's
+dimension is at least $164$ \cite[Theorem~4.1]{qian}.
+Counterexamples for \emph{some} MUB pair in the smaller dimensions are
+also prior work \cite{qian}.  The following theorem applies to every
+prescribed MUB pair throughout the qubit--qudit range $n\geq4$.
+
+\begin{theorem}[Every prescribed MUB pair in qubit--qudit dimensions]
+\label{thm:allmub-qubit}
+ Let $n\geq4$.  For every prescribed ordered pair of mutually unbiased
+ bases on $\mathbb C^2$, and every prescribed ordered pair of mutually
+ unbiased bases on $\mathbb C^n$, there is a separable state $\rho$ of
+ rank four such that
+ \begin{equation}
+  G(\rho)<-\frac{9}{20\,000\,000}.
+  \label{eq:uniform-cqc-margin}
+ \end{equation}
+ For the same prescribed measurements, full-rank separable states with
+ $G<0$ also exist.  The assertions hold with the two parties exchanged.
+\end{theorem}
+
+The construction uses a two-dimensional support on Bob, but the
+measurements on that support are generally not mutually unbiased.
+The state is evaluated with the original complete measurement tables;
+no postselection is performed.
+
+\subsection{Compression to two binary projective measurements}
+\label{sec:compression}
+
+Any pair of mutually unbiased qubit bases can be represented, after a
+local unitary and outcome relabellings, by the Pauli observables $Z$ and
+$X$.  We use this normal form on Alice.
+
+\begin{lemma}[Binary compression of any MUB pair]
+\label{lem:binary-compression}
+ Let $Q=(q_j)_{j=0}^{n-1}$ and $R=(r_k)_{k=0}^{n-1}$ be mutually
+ unbiased bases of $\mathbb C^n$, with $n\geq2$.  Choose $q_0\in Q$ and
+ $r_0\in R$, and set
+ \begin{equation}
+  W=\operatorname{span}\{q_0,r_0\},\qquad P=P_W,
+  \qquad B_1=2|q_0\rangle\langle q_0|-P,
+  \qquad B_2=P-2|r_0\rangle\langle r_0|.
+  \label{eq:mub-compression}
+ \end{equation}
+ On $W$, both $B_1$ and $B_2$ are traceless Hermitian involutions, and
+ \begin{equation}
+  \frac12\operatorname{Tr}_W(B_1B_2)=1-\frac2n.
+  \label{eq:compressed-overlap}
+ \end{equation}
+ For every joint state supported on $\mathbb C^2\otimes W$,
+ \begin{equation}
+  I(Z_A:Q_B)=I(Z_A:B_1),\qquad
+  I(X_A:R_B)=I(X_A:B_2).
+  \label{eq:compression-mi}
+ \end{equation}
+\end{lemma}
+
+\begin{proof}
+ The vectors $q_0,r_0$ are linearly independent because
+ $|\langle q_0,r_0\rangle|^2=1/n<1$.  The claimed trace properties
+ follow directly from \eqref{eq:mub-compression}, and
+ \[
+  \frac12\operatorname{Tr}_W
+  \bigl[(2|q_0\rangle\langle q_0|-P)
+  (P-2|r_0\rangle\langle r_0|)\bigr]
+  =1-2|\langle q_0,r_0\rangle|^2.
+ \]
+ For $j\ne0$, the projected vector $Pq_j$ lies in the single line
+ $W\cap q_0^\perp$.  Thus the restricted $Q$ measurement is a
+ projective measurement of $B_1$ followed by a fixed random subdivision
+ of one binary outcome.  The binary outcome is, conversely, a
+ deterministic function of the fine outcome.  The subdivision is
+ independent of Alice conditional on that binary outcome, so the first
+ equality in \eqref{eq:compression-mi} follows from the chain rule for
+ mutual information.  The same argument applies to $R$; the sign in
+ $B_2$ merely relabels the binary outcomes.
+\end{proof}
+
+The geometric compression in Lemma~\ref{lem:binary-compression} is
+not new.  It is the one appearing in Qian's doubly degenerate stratum
+\cite[Proposition~6.9]{qian}.  It is also O'Connor's ``logical qubit''
+\cite{oconnor}: after rephasing so that $r_0=n^{-1/2}\sum_jq_j$, the
+plane spanned by $q_0$ and the normalised sum of the remaining $Q$
+vectors is exactly $W=\operatorname{span}\{q_0,r_0\}$.  We next use it
+with a mixed-state perturbation different from the pure-ray mixture of
+the earlier all-MUB tail theorem \cite[Theorem~4.1]{qian} and from the
+entangled logical state of \cite{oconnor}.
+
+\subsection{An explicit separable family and its exact curvature}
+\label{sec:curvature}
+
+We now forget the qudit and work with two binary observables on a qubit.
+We write down a separable family and compute the second derivative of
+its gap exactly.
+
+In this subsection Bob is a qubit, with identity $\mathbf1_B$.  Let
+$B_1,B_2$ be traceless Hermitian involutions.  Relabelling the outcomes
+of one observable if necessary, assume
+\begin{equation}
+ c=\tfrac12\operatorname{Tr}(B_1B_2)\in[0,1].
+ \label{eq:binary-overlap}
+\end{equation}
+On Alice put
+\begin{equation}
+ U=\frac{X+Z}{\sqrt2},\qquad
+ V=\frac{Z-X}{\sqrt2},\qquad
+ \alpha_r=\frac{\mathbf1_A+rU}{2},\qquad 0\leq r<1,
+ \label{eq:alice-anchor}
+\end{equation}
+and define
+\begin{equation}
+ \sigma_r=\alpha_r\otimes\frac{\mathbf1_B}{2},\qquad
+ \delta=\frac{Z\otimes B_1-X\otimes B_2}{4},\qquad
+ \rho_{r,t}=\sigma_r+t\delta.
+ \label{eq:separable-family}
+\end{equation}
+For this family the gap $G(r,c,t)$ means
+$I(A:B)-I(Z:B_1)-I(X:B_2)$.
+
+\begin{proposition}[Exact curvature and its threshold]
+\label{prop:curvature-family}
+ If $r+2|t|\leq1$, the operator $\rho_{r,t}$ is a separable density
+ operator with marginals $\alpha_r$ and $\mathbf1_B/2$.  The gap is an
+ even function of $t$, and
+ \begin{equation}
+ \begin{split}
+  Q(r,c)
+  &:=\left.\frac{\partial^2G(r,c,t)}{\partial t^2}\right|_{t=0}\\
+  &=\frac{1-c}{1-r^2}
+    +(1+c)\frac{\operatorname{arctanh}r}{r}
+    -\frac{2}{1-r^2/2},
+ \end{split}
+ \label{eq:curvature-formula}
+ \end{equation}
+ with the continuous interpretation at $r=0$.
+ There exists $r\in(0,1)$ with $Q(r,c)<0$ if and only if $c>1/2$.
+ In particular, every $c>1/2$ yields separable violations for
+ sufficiently small positive $r$ and then sufficiently small nonzero
+ $t$.
+\end{proposition}
+
+\begin{proof}
+ Both partial traces of $\delta$ vanish.  For an explicit separable
+ decomposition let $\Pi_{j,b}=(\mathbf1_B+bB_j)/2$, $b\in\{-1,1\}$.
+ Then
+ \begin{equation}
+  \rho_{r,t}=\frac14\sum_{b=\pm1}
+  \left[(\alpha_r+btZ)\otimes\Pi_{1,b}
+       +(\alpha_r-btX)\otimes\Pi_{2,b}\right].
+  \label{eq:four-product-decomposition}
+ \end{equation}
+ Every Alice factor in this formula has trace one and a Bloch vector
+ of norm at most $r+2|t|$.  The four summands are product density
+ operators with possibly mixed Alice factors and pure Bob factors.
+ This proves positivity, normalization and separability in the stated range.
+
+ Bob has a unitary that sends both $B_1$ and $B_2$ to their negatives:
+ take a Pauli observable perpendicular to their Bloch vectors.  Its
+ conjugation sends $\rho_{r,t}$ to $\rho_{r,-t}$ and only relabels the
+ binary measurement outcomes.  Hence the quantum mutual information
+ and both classical mutual informations are even in $t$.
+
+ The two classical tables agree up to an outcome relabelling.  Their
+ entries are
+ \begin{equation}
+  p_{ab}(t)=\frac{1+a r/\sqrt2+abt}{4},
+  \qquad a,b\in\{-1,1\}.
+  \label{eq:binary-tables}
+ \end{equation}
+ Each has fixed marginals and mutual-information second derivative
+ $1/(1-r^2/2)$ at zero.
+
+ To compute the quantum term, let
+ \[
+  \Omega_\sigma(H)=\int_0^1\sigma^s H\sigma^{1-s}\,ds.
+ \]
+ The Hessian of $D(\sigma_r+t\delta\Vert\sigma_r)$ at zero is
+ $\operatorname{Tr}[\delta\Omega_{\sigma_r}^{-1}(\delta)]$.
+ This relative entropy is the quantum mutual information because the
+ marginals are fixed.  In the eigenbasis of $U$,
+ \begin{equation}
+ \begin{split}
+  \operatorname{Tr}[U\Omega_{\alpha_r}^{-1}(U)]
+    &=\frac4{1-r^2},\\
+  \operatorname{Tr}[V\Omega_{\alpha_r}^{-1}(V)]
+    &=4\frac{\operatorname{arctanh}r}{r}.
+ \end{split}
+ \label{eq:alice-logmean}
+ \end{equation}
+ The first identity follows by adding the reciprocals of the two
+ eigenvalues $(1\pm r)/2$; the second uses their logarithmic mean.
+ The $U$ and $V$ parts are orthogonal for this form.  Since
+ \[
+  \delta=\frac{U\otimes(B_1-B_2)+V\otimes(B_1+B_2)}{4\sqrt2},
+  \qquad
+  \operatorname{Tr}\bigl[(B_1\mp B_2)^2\bigr]=4(1\mp c),
+ \]
+ and $\Omega_{\sigma_r}^{-1}$ contributes a factor two on the
+ maximally mixed Bob factor, the quantum second derivative is the
+ sum of the first two terms in \eqref{eq:curvature-formula}.
+ Subtracting the two classical derivatives proves that formula.
+
+ Finally, its absolutely convergent power series for $|r|<1$ is
+ \begin{equation}
+  Q(r,c)=\sum_{k\geq1}
+   \left[(1-c)+\frac{1+c}{2k+1}-2^{1-k}\right]r^{2k}.
+  \label{eq:curvature-series}
+ \end{equation}
+ The coefficient at $r^2$ is $(1-2c)/3$, so $c>1/2$ gives a negative
+ value for all sufficiently small positive $r$.  At $c=1/2$ that
+ coefficient vanishes, while every coefficient for $k\geq2$ is
+ strictly positive:
+ \[
+  \frac12+\frac{3}{2(2k+1)}-2^{1-k}>0.
+ \]
+ Every coefficient decreases as $c$ increases, so all coefficients
+ are nonnegative for $c\leq1/2$.  This proves the threshold assertion.
+ The gap vanishes at $t=0$ and is even, so a strictly negative second
+ derivative gives a strictly negative gap for sufficiently small
+ nonzero $t$, within the separable range already proved.
+\end{proof}
+
+The threshold in Proposition~\ref{prop:curvature-family} is exact for
+the product-state Hessian of the displayed family.  It does not assert
+a global CQC theorem for all two-qubit states when $c\leq1/2$.
+
+For direct evaluation, the four eigenvalues of
+\eqref{eq:separable-family} are
+\begin{equation}
+ \lambda_{\eta,\xi}(r,c,t)
+ =\frac{1+\eta t\sqrt{1-c}
+             +\xi\sqrt{r^2+(1+c)t^2}}4,
+ \qquad\eta,\xi\in\{-1,1\}.
+ \label{eq:four-eigenvalues}
+\end{equation}
+Indeed, for $c<1$ set
+$C=(B_1-B_2)/\sqrt{2(1-c)}$ and
+$D=(B_1+B_2)/\sqrt{2(1+c)}$.  These are orthogonal Pauli
+observables, and
+\[
+ 4\rho_{r,t}=\mathbf1+rU\otimes\mathbf1_B
+   +t\sqrt{1-c}\,U\otimes C+t\sqrt{1+c}\,V\otimes D.
+\]
+The $U\otimes C$ term commutes with the other two nonconstant terms,
+and those two anticommute.  This proves
+\eqref{eq:four-eigenvalues}, including $c=1$ by continuity.
+
+\subsection{A uniform finite witness}
+\label{sec:witness}
+
+The curvature formula shows that violations exist for small parameters.
+We now bound the higher-order terms by rational estimates, valid for any
+admissible parameters, and then fix one parameter choice that works for
+every overlap $c\geq3/5$.
+
+\begin{lemma}[Quartic remainder bound]
+\label{lem:remainder}
+ Let $0<r<1$, $t>0$ and $r+2t<1$, and let $c\in[0,1]$.  Let
+ $\bar N$ and $\bar A(r)$ be numbers with
+ \begin{equation}
+  \bar N\geq\|\delta\|=N_c,\quad N_c^2=\frac{1+\sqrt{1-c^2}}8,
+  \qquad
+  \bar A(r)\geq\frac{\operatorname{arctanh}r}{r},
+  \label{eq:delta-norms}
+ \end{equation}
+ and put
+ \[
+  L=\frac{1-r}4-t\bar N,\qquad
+  \bar Q=\frac{1-c}{1-r^2}+(1+c)\bar A(r)-\frac{2}{1-r^2/2}.
+ \]
+ If $L>0$, then $\rho_{r,t}$ is separable and positive definite on its
+ four-dimensional support, and
+ \begin{equation}
+  G(r,c,t)\leq\frac{\bar Q}{2}t^2+\frac{N_c^2}{24L^3}t^4.
+  \label{eq:finite-gap-bound}
+ \end{equation}
+\end{lemma}
+
+\begin{proof}
+ Separability is \eqref{eq:four-product-decomposition}, since
+ $r+2t<1$.  Direct Pauli algebra gives $\|\delta\|_F^2=1/2$ and the
+ operator norm in \eqref{eq:delta-norms}.  On the support, the smallest
+ eigenvalue of $\sigma_r$ is $(1-r)/4$, so by Weyl's inequality
+ $\lambda_{\min}(\rho_{r,s})\geq L>0$ for $|s|\leq t$.
+ Let $f(s)=\operatorname{Tr}(\rho_{r,s}\log\rho_{r,s})$.
+ Differentiating the resolvent representation for the second
+ derivative gives
+ \begin{equation}
+  f^{(4)}(s)=6\int_0^\infty
+   \operatorname{Tr}\left[
+    \bigl(\delta(\rho_{r,s}+u\mathbf1)^{-1}\bigr)^4
+   \right]du.
+  \label{eq:fourth-resolvent}
+ \end{equation}
+ If $R=(\rho_{r,s}+u\mathbf1)^{-1}$, the integrand is
+ $\operatorname{Tr}\bigl[(R^{1/2}\delta R^{1/2})^4\bigr]$ and is nonnegative.
+ Applying $\operatorname{Tr}A^4\leq\|A\|^2\|A\|_F^2$ to this
+ Hermitian matrix yields
+ \begin{equation}
+  0\leq f^{(4)}(s)\leq
+   \frac{2\|\delta\|^2\|\delta\|_F^2}{\lambda_{\min}(\rho_{r,s})^3}
+   \leq\frac{N_c^2}{L^3}.
+ \label{eq:fourth-bound}
+ \end{equation}
+ The quantum mutual information equals $f(s)-f(0)$, and is even in
+ $s$.  Each classical mutual information $J(s)$ is also even.  Because
+ the marginals of \eqref{eq:binary-tables} are fixed and its cells are
+ affine in $s$,
+ \[
+  J^{(4)}(s)=2\sum_{a,b}\frac{(p'_{ab}(s))^4}{p_{ab}(s)^3}
+  \geq0,
+ \]
+ where all cells $(1\pm r/\sqrt2\pm s)/4$ are positive because
+ $r/\sqrt2+t<1$, which follows from $r+2t<1$.  Thus $J(t)\geq J''(0)t^2/2$.  Since the second derivative
+ of the gap at zero is $Q(r,c)\leq\bar Q$, Taylor's theorem with the
+ Lagrange remainder gives \eqref{eq:finite-gap-bound}.
+\end{proof}
+
+\begin{lemma}[Uniform strictly negative gap]
+\label{lem:finite-witness}
+ For every $c\in[3/5,1]$, the state
+ $\rho_{61/200,\,421/20000}$ in \eqref{eq:separable-family} is
+ separable, is positive definite on its four-dimensional support, and
+ satisfies \eqref{eq:uniform-cqc-margin}.
+\end{lemma}
+
+\begin{proof}
+ Apply Lemma~\ref{lem:remainder} with $(r,t)=(61/200,421/20000)$,
+ \begin{equation}
+  \bar A(r)=\sum_{k=0}^{40}\frac{r^{2k}}{2k+1}
+            +\frac{r^{82}}{83(1-r^2)},
+  \label{eq:artanh-upper}
+ \end{equation}
+ which bounds $\operatorname{arctanh}(r)/r$ because every omitted
+ coefficient is at most $1/83$, and with $\bar N$ a rational number at
+ least $\sqrt{N_c^2}$, rounded upwards at denominator $10^{12}$ (the
+ same rounding is applied to $\sqrt{1-c^2}$ inside $N_c^2$).  The right
+ side of \eqref{eq:finite-gap-bound} decreases in $c$: its $c$-derivative
+ through $\bar Q$ is $\bar A(r)-1/(1-r^2)<0$, and $N_c^2$ decreases
+ while $L$ increases.  It therefore suffices to evaluate it at $c=3/5$,
+ where $N_c^2=9/40$; the script uses a rational upper bound for
+ $N_c^2$ (rounded upwards as above), which can only weaken the bound.  This is a finite computation in exact rational
+ arithmetic.  It gives a value below $-9/20\,000\,000$; the script
+ \texttt{scout\_cqc/certified\_margin.py} performs it, together with
+ the monotonicity inequality and a check on a grid of $41$ values of
+ $c$, with no floating-point arithmetic.
+\end{proof}
+
+\begin{remark}[A hand-checkable cruder constant]
+\label{rem:old-constant}
+ The same lemma at $(r,t)=(1/3,1/100)$ can be checked by hand and gives,
+ for every $c\in[3/5,1]$, the weaker margin
+ $-17117/114\,750\,000\,000\approx-1.49\times10^{-7}$
+ of an earlier version of this work (the bounds below use $c\geq3/5$).  At $r=1/3$,
+ \eqref{eq:curvature-formula} gives
+ $Q(1/3,c)=\tfrac98(1-c)+\tfrac32(1+c)\log2-\tfrac{36}{17}$, which
+ decreases with $c$.  The series bound
+ \begin{equation}
+  \log2=2\sum_{k\geq0}\frac1{(2k+1)3^{2k+1}}
+   <\frac23+\frac2{81}+\frac1{540}=\frac{1123}{1620}
+ \label{eq:log-two-upper}
+ \end{equation}
+ follows by bounding $1/(2k+1)$ by $1/5$ for $k\geq2$; it is strict for
+ $k>2$.  Hence
+ \begin{equation}
+  Q(1/3,c)\leq\frac{12}{5}\log2-\frac{567}{340}<-\frac{181}{45900},
+  \label{eq:uniform-negative-curvature}
+ \end{equation}
+ where $(12/5)(1123/1620)-567/340=-181/45900$ exactly, so strictness
+ comes solely from \eqref{eq:log-two-upper}.  Using the cruder bounds
+ $\|\delta\|\leq1/2$ and $\|\delta\|^2\leq9/40$ for $|s|\leq1/12$ gives
+ $\lambda_{\min}\geq1/6-|s|/2\geq1/8$ and $f^{(4)}\leq576/5$, so
+ $G(1/3,c,t)<-181t^2/91800+(24/5)t^4$, which equals
+ $-17117/114\,750\,000\,000$ at $t=1/100$.  The rational evaluation of
+ Lemma~\ref{lem:remainder} at this point gives about
+ $-1.83\times10^{-7}$, so the earlier constant also follows from it.
+\end{remark}
+
+\paragraph{Margins for each dimension.}
+Optimising $(r,t)$ separately for each overlap gives larger certified
+margins.  Table~\ref{tab:margins} lists them; each entry is proved by the
+same exact rational evaluation of Lemma~\ref{lem:remainder} in
+\texttt{certified\_margin.py}.  For $n=4$ the overlap is $c=1$
+(see the proof below).  Because the bound decreases in $c$, the entry
+for $n=12$ also holds for every $n\geq13$, and the $c=1$ entry is the
+limit as $n\to\infty$.
+
+\begin{table}[ht]
+\centering\small
+\caption{Certified separable CQC violations for each Bob dimension $n$,
+with $c=1-2/n$ for $n\geq5$ and $c=1$ for $n=4$.  Each margin is a
+proved strict upper bound on the gap $G$, in nats.}
+\label{tab:margins}
+\begin{tabular}{rccc}
+\toprule
+$n$ & $c$ & $(r,t)$ & certified $G<$\\
+\midrule
+4 & $1$ & $(113/200,\ 2851/50000)$ & $-1.058\times10^{-4}$\\
+5 & $3/5$ & $(61/200,\ 421/20000)$ & $-4.572\times10^{-7}$\\
+6 & $2/3$ & $(19/50,\ 2881/100000)$ & $-2.522\times10^{-6}$\\
+7 & $5/7$ & $(421/1000,\ 3301/100000)$ & $-5.673\times10^{-6}$\\
+8 & $3/4$ & $(223/500,\ 3569/100000)$ & $-9.249\times10^{-6}$\\
+9 & $7/9$ & $(93/200,\ 1879/50000)$ & $-1.288\times10^{-5}$\\
+10 & $4/5$ & $(239/500,\ 39/1000)$ & $-1.639\times10^{-5}$\\
+11 & $9/11$ & $(61/125,\ 1003/25000)$ & $-1.971\times10^{-5}$\\
+12 & $5/6$ & $(62/125,\ 4103/100000)$ & $-2.281\times10^{-5}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{How large are the true violations? (Numerical, not a proof.)}
+The quartic remainder bound is loose at larger $t$, so the true gaps are
+larger than the certified ones.  Direct numerical evaluation of the gap in
+the same family, optimised over $(r,t)$, gives the values in
+Table~\ref{tab:numeric}.  At $n=5$ the best value in the family is about
+twelve times the value at the hand-checkable point $(1/3,1/100)$.  These
+numbers are illustrations only; they are not used in any proof.
+
+\begin{table}[ht]
+\centering\small
+\caption{Numerical (non-proof) gaps in the family
+\eqref{eq:separable-family}, in nats.}
+\label{tab:numeric}
+\begin{tabular}{rcccc}
+\toprule
+$n$ & $c$ & best $G$ in the family & at $(r,t)\approx$ & $G$ at $(1/3,1/100)$\\
+\midrule
+4 & $1$ & $-2.43\times10^{-3}$ & $(0.573,\ 0.214)$ & $-1.91\times10^{-6}$\\
+5 & $0.6$ & $-2.35\times10^{-6}$ & $(0.329,\ 0.048)$ & $-2.00\times10^{-7}$\\
+6 & $0.667$ & $-2.03\times10^{-5}$ & $(0.421,\ 0.081)$ & $-4.85\times10^{-7}$\\
+7 & $0.714$ & $-6.15\times10^{-5}$ & $(0.475,\ 0.107)$ & $-6.88\times10^{-7}$\\
+8 & $0.75$ & $-1.25\times10^{-4}$ & $(0.511,\ 0.127)$ & $-8.41\times10^{-7}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+We prove Theorem~\ref{thm:allmub-qubit} first for $n\geq5$, where the
+compression of Lemma~\ref{lem:binary-compression} has $c\geq3/5$, and
+then for $n=4$, where it has only $c=1/2$ and a different plane is
+needed.
+
+\begin{proof}[Proof of Theorem~\ref{thm:allmub-qubit}]
+ For $n\geq5$, use Lemma~\ref{lem:binary-compression}; its overlap
+ is $c=1-2/n\geq3/5$.  Embed the state of
+ Lemma~\ref{lem:finite-witness} in $\mathbb C^2\otimes W$.
+ Written on the original space it is
+ \begin{equation}
+  \rho=\frac14\left[
+   \left(\mathbf1_A+\frac{61(X+Z)}{200\sqrt2}\right)\otimes P
+   +\frac{421}{20000}(Z\otimes B_1-X\otimes B_2)
+  \right].
+  \label{eq:explicit-all-mub-state}
+ \end{equation}
+ It has rank four.  Its separability follows from
+ \eqref{eq:four-product-decomposition}, with
+ $\Pi_{j,b}=(P+bB_j)/2$, and the mutual-information equalities
+ \eqref{eq:compression-mi} transfer the strict gap to the original
+ measurement tables.
+
+ For $n=4$, write $Q$ and $R$ also for the unitary matrices whose
+ columns are the prescribed basis vectors.  The matrix $2Q^*R$ is a
+ complex Hadamard matrix of order four.  By the exhaustive
+ classification at this order \cite[Section~5.4, equations~(62)--(65)]{tadej},
+ $Q^*R=D_1P_1H(a)P_2D_2$ for diagonal unitaries $D_i$, permutation
+ matrices $P_i$, and
+ \begin{equation}
+ H(a)=\frac12\begin{pmatrix}
+  1&1&1&1\\
+  1&a&-1&-a\\
+  1&-1&1&-1\\
+  1&-a&-1&a
+ \end{pmatrix},\qquad |a|=1.
+ \label{eq:hadamard-four}
+ \end{equation}
+ Put $V=QD_1P_1$.  Then $Q=V(D_1P_1)^{-1}$ and $R=VH(a)P_2D_2$, so the
+ rays of $Q$ are the columns of $V$ and the rays of $R$ are the columns
+ of $VH(a)$, up to order and phase.  Set
+ \[
+  u=V\frac{(1,0,1,0)^{\mathsf T}}{\sqrt2},\qquad
+  v=V\frac{(0,1,0,-1)^{\mathsf T}}{\sqrt2}.
+ \]
+ The left factor $D_1$ must be kept in $V$: with $V$ replaced by
+ $QP_1$ the vectors are generally different and the construction
+ fails.  In the frame $V$, the two vectors have disjoint supports in the
+ computational basis, and also in the basis of columns of $H(a)$,
+ because
+ \[
+  H(a)^*V^*u=\frac{(1,0,1,0)^{\mathsf T}}{\sqrt2},\qquad
+  H(a)^*V^*v=\frac{(0,\bar a,0,-\bar a)^{\mathsf T}}{\sqrt2}.
+ \]
+ On $W=\operatorname{span}\{u,v\}$, both fine measurements $Q$ and $R$
+ are consequently the same binary projective measurement, followed by
+ independent subdivisions of its outcomes.  Take
+ $B_1=B_2=|u\rangle\langle u|-|v\rangle\langle v|$;
+ now $c=1$, and Lemma~\ref{lem:finite-witness} again gives
+ \eqref{eq:uniform-cqc-margin}.  The state
+ \eqref{eq:explicit-all-mub-state}, with $P=|u\rangle\langle u|+|v\rangle\langle v|$
+ and these $B_1,B_2$, is already written for the originally prescribed
+ pair.  The accompanying numerical checks include random instances of
+ $Q$, $D_1,P_1,D_2,P_2$ and $a$.
+
+ Finally, for either construction set
+ \[
+  \rho_\varepsilon=(1-\varepsilon)\rho
+                  +\varepsilon\frac{\mathbf1_{2n}}{2n}.
+ \]
+ For every $0<\varepsilon<1$ this is full rank and separable.
+ Continuity of the finite-dimensional quantum and classical entropies
+ preserves $G(\rho_\varepsilon)<0$ for sufficiently small
+ $\varepsilon>0$.  This last assertion does not require, or assert, a
+ noise tolerance uniform in $n$.  Exchanging the parties proves the
+ transposed statement.
+\end{proof}
+
+At $n=4$ the same disjoint-support vectors also give the familiar
+rank-two double-readout witness
+$\tfrac12|0,u\rangle\langle0,u|+
+\tfrac12|+,v\rangle\langle+,v|$ from the existing counterexample
+mechanism \cite[Appendix~A.3]{qian}.  The proof above instead uses
+the same finite parameters and rational margin in every dimension.
+
+\subsection{When both local dimensions are at least three}
+
+The locally orthogonal shared-label mechanism of the original
+counterexamples \cite{wangcounter,qian} also extends to arbitrary
+prescribed MUB pairs.  For equal dimensions $d\geq3$, an adapted
+every-prescribed-pair construction was stated earlier by O'Connor
+\cite{oconnor}, using the compression of
+Lemma~\ref{lem:binary-compression} and an entangled logical state; its
+author flagged it as not independently checked.  The theorem below
+gives a separable version, allows unequal dimensions, and adds a
+margin independent of the dimensions, with a complete proof.  We
+record it separately from the qubit curvature construction.
+
+\begin{theorem}[Arbitrary prescribed bases in higher local dimensions]
+\label{thm:allmub-higher}
+ Let $m,n\geq3$.  For every prescribed MUB pair on $\mathbb C^m$
+ and every prescribed MUB pair on $\mathbb C^n$, there is a
+ rank-two separable state $\tau$, diagonal in a local product basis,
+ such that
+ \begin{equation}
+  I(Q_A:Q_B)_\tau+I(R_A:R_B)_\tau-I(A:B)_\tau
+  \geq\frac1{2\pi^4}.
+  \label{eq:higher-uniform-gap}
+ \end{equation}
+ Full-rank separable states with strictly positive excess exist for
+ the same prescribed measurements.
+\end{theorem}
+
+\begin{proof}
+ On a local space of dimension $d\geq3$, select three distinct vectors
+ $q_0,q_1,q_2$ of $Q$ and define
+ \[
+  u=q_0,\qquad
+  v_\theta=\frac{q_1+e^{i\theta}q_2}{\sqrt2}.
+ \]
+ The $R$ law of $u$ is uniform, $p(k)=1/d$.  Mutual unbiasedness
+ gives phases $z_k$, with $|z_k|=1$, for which the $R$ law of
+ $v_\theta$ is
+ \[
+  q_\theta(k)=\frac{1+\operatorname{Re}(e^{i\theta}z_k)}d.
+ \]
+ Averaging over the phase shows
+ \begin{equation}
+  \frac1{2\pi}\int_0^{2\pi}\|q_\theta-p\|_1\,d\theta
+  =\frac2\pi.
+  \label{eq:phase-average}
+ \end{equation}
+ Choose a phase attaining at least this average, independently on
+ Alice and Bob.  Set
+ \[
+  \tau=\tfrac12|u_Au_B\rangle\langle u_Au_B|
+       +\tfrac12|v_Av_B\rangle\langle v_Av_B|.
+ \]
+ The product rays are locally orthogonal, so $\tau$ and both of its
+ marginals have nonzero spectrum $(1/2,1/2)$.  It follows that
+ $I(A:B)_\tau=\log2$.  Each $Q$ measurement identifies the latent
+ mixture label exactly, and the local outcomes are independent
+ conditional on that label.  Hence $I(Q_A:Q_B)_\tau=\log2$ as well.
+
+ For the $R$ outcomes, write $p_A,p_B$ for the conditional uniform
+ laws and $q_A,q_B$ for the other conditional laws.  Their joint law
+ is $P=\tfrac12p_A\otimes p_B+\tfrac12q_A\otimes q_B$, and
+ \[
+  P-P_A\otimes P_B
+  =\tfrac14(p_A-q_A)\otimes(p_B-q_B).
+ \]
+ Therefore \eqref{eq:phase-average} gives
+ \[
+  \|P-P_A\otimes P_B\|_1
+   =\tfrac14\|p_A-q_A\|_1\|p_B-q_B\|_1
+   \geq\frac1{\pi^2}.
+ \]
+ Pinsker's inequality in natural units now yields
+ \[
+  I(R_A:R_B)_\tau
+    =D(P\Vert P_A\otimes P_B)
+    \geq\tfrac12\|P-P_A\otimes P_B\|_1^2
+    \geq\frac1{2\pi^4},
+ \]
+ which is precisely the excess in \eqref{eq:higher-uniform-gap}.
+ The full-rank assertion follows by mixing with sufficiently little
+ maximally mixed noise and using continuity, as above.
+\end{proof}
+
+For a finite construction without optimizing a continuous phase,
+one may choose only between $\theta=0$ and $\theta=\pi/2$ on each
+party.  The elementary inequality $|\operatorname{Re}z|+
+|\operatorname{Im}z|\geq1$ for $|z|=1$ ensures that one choice gives
+$\|q_\theta-p\|_1\geq1/2$.  The same proof then gives the uniform
+excess $1/512$.  The stronger bound \eqref{eq:higher-uniform-gap}
+uses the phase average.
+
+For completeness, the required form of Pinsker's inequality can be
+proved without additional matrix inequalities.  Coarsen two
+probability laws $P,Q$ into the event $\{P>Q\}$ and its complement.
+The log-sum inequality bounds $D(P\Vert Q)$ below by the binary
+relative entropy $d(a\Vert b)$, with
+$a-b=\|P-Q\|_1/2$.  As a function of $a$, this binary relative
+entropy vanishes together with its first derivative at $a=b$, and
+has second derivative $1/[a(1-a)]\geq4$.  Thus
+$d(a\Vert b)\geq2(a-b)^2=\|P-Q\|_1^2/2$.
+
+Theorems~\ref{thm:allmub-qubit} and~\ref{thm:allmub-higher}
+make the failure independent of which MUB pairs are prescribed in
+the covered dimensions.  They do not decide the remaining global
+$2\times3$ CQC problem: the two-vector compression there has
+$c=1/3$, below the threshold of
+Proposition~\ref{prop:curvature-family}.
